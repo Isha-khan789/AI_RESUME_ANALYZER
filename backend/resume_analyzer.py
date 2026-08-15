@@ -55,6 +55,21 @@ def find_missing_skills(extracted_skills):
             missing_skills.append(skill)
 
     return missing_skills
+def match_job_description(resume_text, job_description):
+    resume_text = resume_text.lower()
+    job_description = job_description.lower()
+
+    matched_skills = []
+    missing_skills = []
+
+    for skill in skills:
+        if skill.lower() in job_description:
+            if skill.lower() in resume_text:
+                matched_skills.append(skill)
+            else:
+                missing_skills.append(skill)
+
+    return matched_skills, missing_skills
 
 if __name__ == "__main__":
     text = extract_text_from_pdf("resume.pdf")
@@ -72,3 +87,12 @@ if __name__ == "__main__":
     print("Skill Score:", skill_score)
     print("Section Score:", section_score)
     print("Total Score:", total_score)
+    job_description = """
+We are looking for an AI/ML Engineer with Python,
+TensorFlow, Keras, Pandas, NumPy and Scikit-learn.
+"""
+
+matched, missing = match_job_description(text, job_description)
+
+print("Matched Skills:", matched)
+print("Missing Job Skills:", missing)
